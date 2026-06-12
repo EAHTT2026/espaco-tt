@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triagem Psicológica — Espaço Thayná Tavares</title>
+    <style>
+        :root { --primary: #2D6A4F; --primary-dark: #1B4332; --accent: #52B788; --bg: #F0F4F0; --white: #FFFFFF; --text: #2D3748; --text-light: #4A5568; --border: #DDE8DD; --danger: #E53E3E; --shadow: 0 4px 24px rgba(0,0,0,0.08); --radius: 12px; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; }
+        header { background:linear-gradient(135deg,var(--primary-dark),var(--primary)); padding:28px 24px; text-align:center; color:white; }
+        header h1 { font-size:1.3rem; font-weight:700; margin-bottom:4px; }
+        header p { font-size:0.9rem; opacity:0.85; }
+        .heart { display:inline-block; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+        .container { max-width:720px; margin:0 auto; padding:24px 16px 48px; }
+        .card { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); padding:32px; border:1px solid var(--border); }
+        .form-section { margin-bottom:28px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+        .form-section:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+        .form-section h3 { font-size:1rem; color:var(--primary); margin-bottom:2px; font-weight:600; }
+        .section-desc { color:var(--text-light); font-size:0.82rem; margin-bottom:18px; }
+        .form-group { margin-bottom:18px; }
+        .form-group label { display:block; font-weight:600; font-size:0.88rem; margin-bottom:5px; color:var(--text); }
+        .required { color:var(--danger); margin-left:2px; }
+        .help { font-size:0.78rem; color:var(--text-light); margin-top:4px; font-weight:400; }
+        .form-group input,.form-group select,.form-group textarea { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:0.93rem; font-family:inherit; color:var(--text); background:var(--white); transition:0.25s; }
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(82,183,136,0.15); }
+        .form-group textarea { min-height:90px; resize:vertical; }
+        .form-group select { cursor:pointer; }
+        .form-group input.error,.form-group select.error,.form-group textarea.error { border-color:var(--danger); box-shadow:0 0 0 3px rgba(229,62,62,0.1); }
+        .error-msg { color:var(--danger); font-size:0.78rem; margin-top:4px; display:none; }
+        .form-group input.error+.error-msg,.form-group select.error+.error-msg,.form-group textarea.error+.error-msg { display:block; }
+        .check-group label { display:flex; align-items:center; gap:8px; font-weight:400; cursor:pointer; padding:7px 0; }
+        .check-group input[type="checkbox"],.check-group input[type="radio"] { width:18px; height:18px; accent-color:var(--primary); flex-shrink:0; }
+        .check-group.inline { display:flex; flex-wrap:wrap; gap:16px; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 32px; border:none; border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer; transition:0.25s; font-family:inherit; }
+        .btn-primary { background:var(--primary); color:white; width:100%; }
+        .btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); box-shadow:0 4px 12px rgba(45,106,79,0.3); }
+        .btn-secondary { background:#E8F0EB; color:var(--primary-dark); width:100%; }
+        .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+        .success-icon { width:72px; height:72px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+        .protocolo-badge { display:inline-block; background:var(--primary-dark); color:white; padding:10px 24px; border-radius:24px; font-weight:700; font-size:1.1rem; letter-spacing:0.05em; margin:12px 0; }
+        .alert { padding:14px 18px; border-radius:8px; margin-bottom:20px; font-size:0.88rem; }
+        .alert-info { background:#DBEAFE; color:#1E40AF; border:1px solid #BFDBFE; }
+        @media(max-width:600px) { .card{padding:20px} header h1{font-size:1.1rem} }
+    </style>
+</head>
+<body>
+<header>
+    <h1><span class="heart">💚</span> Espaço de Acolhimento Humanitário<br>Thayná Tavares</h1>
+    <p>Triagem para Atendimento Psicológico</p>
+</header>
+<div class="container">
+
+<div class="card" id="formCard">
+    <div class="alert alert-info">
+        📌 <strong>Importante:</strong> Atendemos pessoas com ideação suicida, sobreviventes do suicídio e seus familiares. Atendimentos <strong>presenciais</strong> em nossa sede. Trabalhamos com <strong>lista de espera</strong>. Preencha todos os campos com atenção.
+    </div>
+    <form id="formInscricao" novalidate>
+        <div class="form-section">
+            <h3>📁 Dados Pessoais</h3>
+            <p class="section-desc">Informações para contato e cadastro.</p>
+            <div class="form-group"><label>Nome completo <span class="required">*</span></label><input type="text" id="nome" placeholder="Seu nome completo" required><span class="error-msg">Campo obrigatório.</span></div>
+            <div class="form-group"><label>Telefone (preferencialmente WhatsApp) <span class="required">*</span></label><input type="tel" id="telefone" placeholder="(DDD) XXXXX-XXXX" required><span class="help">Informe um número com DDD para agilizar o contato.</span><span class="error-msg">Informe um telefone válido.</span></div>
+            <div class="form-group"><label>E-mail <span class="required">*</span></label><input type="email" id="email" placeholder="seu@email.com" required><span class="error-msg">Informe um e-mail válido.</span></div>
+            <div class="form-group"><label>Data de nascimento <span class="required">*</span></label><input type="date" id="dataNascimento" required><span class="error-msg">Campo obrigatório.</span></div>
+            <div class="form-group"><label>Cidade onde reside <span class="required">*</span></label><input type="text" id="cidade" placeholder="Sua cidade" required><span class="error-msg">Campo obrigatório.</span></div>
+            <div class="form-group"><label>Profissão <span class="required">*</span></label><input type="text" id="profissao" placeholder="Sua profissão ou ocupação" required><span class="error-msg">Campo obrigatório.</span></div>
+            <div class="form-group"><label>Grau de instrução <span class="required">*</span></label><select id="grauInstrucao" required><option value="">Selecione...</option><option>Fundamental Incompleto</option><option>Fundamental Completo</option><option>Médio Incompleto</option><option>Médio Completo</option><option>Superior Incompleto</option><option>Superior Completo</option></select><span class="error-msg">Selecione uma opção.</span></div>
+            <div class="form-group"><label>Nome do(a) responsável (se menor de idade)</label><input type="text" id="nomeResponsavel" placeholder="Deixe em branco se não for o caso"></div>
+            <div class="form-group"><label>Telefone do(a) responsável (se menor de idade)</label><input type="tel" id="telefoneResponsavel" placeholder="Deixe em branco se não for o caso"></div>
+        </div>
+        <div class="form-section">
+            <h3>🩺 Informações Clínicas</h3>
+            <p class="section-desc">Essas informações nos ajudam a entender sua demanda.</p>
+            <div class="form-group"><label>Queixa principal (motivo de buscar o atendimento) <span class="required">*</span></label><textarea id="queixa" placeholder="Descreva brevemente o que te motivou a buscar ajuda neste momento..." required></textarea><span class="error-msg">Campo obrigatório.</span></div>
+            <div class="form-group"><label>Sintomas que tem percebido <span class="required">*</span></label><textarea id="sintomas" placeholder="Ex.: insônia, falta de apetite, tristeza persistente, ansiedade, pensamentos recorrentes..." required></textarea><span class="error-msg">Campo obrigatório.</span></div>
+            <div class="form-group"><label>Já teve acompanhamento psicológico ou psiquiátrico antes? <span class="required">*</span></label><div class="check-group inline"><label><input type="checkbox" name="acompanhamento" value="Psicólogo(a)"> Psicólogo(a)</label><label><input type="checkbox" name="acompanhamento" value="Psiquiatra"> Psiquiatra</label><label><input type="checkbox" name="acompanhamento" value="Não"> Não</label></div><span class="error-msg" id="errAcomp">Selecione ao menos uma opção.</span></div>
+            <div class="form-group"><label>Faz uso de medicação psiquiátrica? <span class="required">*</span></label><div class="check-group"><label><input type="radio" name="medicacao" value="Sim"> Sim</label><label><input type="radio" name="medicacao" value="Não"> Não</label><label><input type="radio" name="medicacao" value="Já usei, hoje não faço uso"> Já usei, hoje não faço uso</label></div><span class="error-msg">Selecione uma opção.</span></div>
+            <div class="form-group" id="grupoQualMedicacao" style="display:none;"><label>Se sim, qual(is) medicação(ões)?</label><input type="text" id="qualMedicacao" placeholder="Nome da(s) medicação(ões)"></div>
+        </div>
+        <div class="form-section">
+            <h3>⏰ Disponibilidade para Atendimento</h3>
+            <p class="section-desc">Para encontrarmos o melhor horário para você.</p>
+            <div class="form-group"><label>Disponibilidade de horário <span class="required">*</span></label><div class="check-group inline"><label><input type="checkbox" name="horario" value="Manhã"> Manhã</label><label><input type="checkbox" name="horario" value="Tarde"> Tarde</label></div><span class="error-msg" id="errHorario">Selecione ao menos uma opção.</span></div>
+            <div class="form-group"><label>Dias da semana disponíveis <span class="required">*</span></label><div class="check-group inline"><label><input type="checkbox" name="diaSemana" value="Segunda-feira"> Segunda</label><label><input type="checkbox" name="diaSemana" value="Terça-feira"> Terça</label><label><input type="checkbox" name="diaSemana" value="Quarta-feira"> Quarta</label><label><input type="checkbox" name="diaSemana" value="Quinta-feira"> Quinta</label><label><input type="checkbox" name="diaSemana" value="Sexta-feira"> Sexta</label></div><span class="error-msg" id="errDia">Selecione ao menos um dia.</span></div>
+            <div class="form-group"><label>Preferência de gênero do(a) profissional <span class="required">*</span></label><div class="check-group"><label><input type="radio" name="prefGenero" value="Homem"> Homem</label><label><input type="radio" name="prefGenero" value="Mulher"> Mulher</label><label><input type="radio" name="prefGenero" value="Não tenho preferência"> Não tenho preferência</label></div><span class="error-msg">Selecione uma opção.</span></div>
+        </div>
+        <div class="form-section">
+            <h3>🔒 Termo de Consentimento — LGPD</h3>
+            <p class="section-desc">Protegemos seus dados conforme a Lei Geral de Proteção de Dados.</p>
+            <div class="form-group"><div class="check-group"><label><input type="checkbox" id="consentimentoLgpd"> Autorizo o uso dos meus dados pessoais exclusivamente para fins de triagem, contato e acompanhamento psicológico pelo Espaço de Acolhimento Humanitário Thayná Tavares, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). <span class="required">*</span></label></div><span class="error-msg">Aceite o termo de consentimento.</span></div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnEnviar">📨 Enviar Inscrição</button>
+    </form>
+</div>
+
+<div class="card" id="successCard" style="display:none;text-align:center;">
+    <div class="success-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+    <h2 style="color:var(--primary-dark);margin-bottom:8px;">✅ Inscrição Recebida!</h2>
+    <p style="margin-bottom:8px;color:var(--text-light);">Seu protocolo de atendimento:</p>
+    <div class="protocolo-badge" id="protocoloGerado">—</div>
+    <p style="margin-top:16px;color:var(--text-light);font-size:0.9rem;">Entraremos em contato pelo telefone/e-mail informado<br>assim que houver disponibilidade na agenda.<br><br><strong>Lembre-se: você não está sozinho(a). 💚</strong></p>
+    <button class="btn btn-secondary" style="margin-top:16px;max-width:280px;" onclick="novaInscricao()">📝 Fazer nova inscrição</button>
+</div>
+
+</div>
+
+<script>
+// ═════════════════════════════════════
+//  FORMULÁRIO PÚBLICO — CONECTADO À API
+// ═════════════════════════════════════
+
+// ⚠️ TROQUE pela URL da sua API (Google Apps Script Web App)
+var API_URL = 'https://script.google.com/macros/s/AKfycbykPFCa2L13fwQ0O8gKpEgzDoYUd03nJcqa3Sy01KJQ4iKFsuhfz6NSSfWSBpC62syvoA/exec';
+
+const STORAGE_KEY = 'espaco_ttt_inscricoes';
+
+function carregarLocal() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch(e) { return []; }
+}
+
+function salvarLocal(lista) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(lista));
+}
+
+function gerarProtocoloLocal(lista) {
+    var hoje = new Date();
+    var ano = hoje.getFullYear().toString().slice(-2);
+    var mes = (hoje.getMonth()+1).toString().padStart(2,'0');
+    var num = (lista.length+1).toString().padStart(4,'0');
+    return 'ETT-'+ano+mes+'-'+num;
+}
+
+document.querySelectorAll('input[name="medicacao"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+        document.getElementById('grupoQualMedicacao').style.display = r.value==='Sim' ? 'block' : 'none';
+    });
+});
+
+document.getElementById('formInscricao').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validar()) return;
+
+    var btn = document.getElementById('btnEnviar');
+    btn.disabled = true;
+    btn.textContent = '⏳ Enviando...';
+
+    var dados = {
+        nome: val('nome'), telefone: val('telefone'), email: val('email'),
+        dataNascimento: val('dataNascimento'), cidade: val('cidade'),
+        profissao: val('profissao'), grauInstrucao: val('grauInstrucao'),
+        nomeResponsavel: val('nomeResponsavel'), telefoneResponsavel: val('telefoneResponsavel'),
+        queixa: val('queixa'), sintomas: val('sintomas'),
+        acompanhamento: checked('acompanhamento').join(', '),
+        medicacao: radio('medicacao'), qualMedicacao: val('qualMedicacao'),
+        horario: checked('horario').join(', '),
+        diaSemana: checked('diaSemana').join(', '),
+        prefGenero: radio('prefGenero'),
+    };
+
+    var protocolo = null;
+
+    // ── Tenta enviar via API ──
+    if (API_URL && API_URL !== 'SUA_URL_DA_API_AQUI') {
+        try {
+            var qs = 'action=inscrever';
+            for (var k in dados) { qs += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(dados[k]); }
+            var url = API_URL + (API_URL.includes('?')?'&':'?') + qs;
+            var resp = await fetch(url, { method: 'POST' });
+            var result = await resp.json();
+            if (result.sucesso) { protocolo = result.protocolo; }
+            else { throw new Error(result.erro || 'Erro'); }
+        } catch(err) {
+            console.warn('API offline, salvando local:', err.message);
+        }
+    }
+
+    // ── Fallback localStorage ──
+    if (!protocolo) {
+        var lista = carregarLocal();
+        protocolo = gerarProtocoloLocal(lista);
+        var insc = { protocolo: protocolo, status: 'Novo', dataInscricao: new Date().toISOString() };
+        for (var k in dados) { insc[k] = dados[k]; }
+        lista.unshift(insc);
+        salvarLocal(lista);
+    }
+
+    btn.disabled = false;
+    btn.textContent = '📨 Enviar Inscrição';
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successCard').style.display = 'block';
+    document.getElementById('protocoloGerado').textContent = protocolo;
+    document.getElementById('successCard').scrollIntoView({ behavior:'smooth' });
+});
+
+function val(id) { return document.getElementById(id).value.trim(); }
+function checked(name) { var r=[]; document.querySelectorAll('input[name="'+name+'"]:checked').forEach(function(c){r.push(c.value)}); return r; }
+function radio(name) { var c=document.querySelector('input[name="'+name+'"]:checked'); return c ? c.value : ''; }
+
+function validar() {
+    var ok = true;
+    ['nome','telefone','email','dataNascimento','cidade','profissao','grauInstrucao','queixa','sintomas'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el.value.trim()) { el.classList.add('error'); ok=false; } else { el.classList.remove('error'); }
+    });
+    var em = document.getElementById('email');
+    if (em.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)) { em.classList.add('error'); ok=false; }
+    if (checked('acompanhamento').length===0) { document.getElementById('errAcomp').style.display='block'; ok=false; } else { document.getElementById('errAcomp').style.display='none'; }
+    if (!radio('medicacao')) ok=false;
+    if (checked('horario').length===0) { document.getElementById('errHorario').style.display='block'; ok=false; } else { document.getElementById('errHorario').style.display='none'; }
+    if (checked('diaSemana').length===0) { document.getElementById('errDia').style.display='block'; ok=false; } else { document.getElementById('errDia').style.display='none'; }
+    if (!radio('prefGenero')) ok=false;
+    if (!document.getElementById('consentimentoLgpd').checked) ok=false;
+    if (!ok) { var err = document.querySelector('.error'); if (err) err.scrollIntoView({ behavior:'smooth',block:'center' }); }
+    return ok;
+}
+
+function novaInscricao() {
+    document.getElementById('formInscricao').reset();
+    document.getElementById('formCard').style.display = 'block';
+    document.getElementById('successCard').style.display = 'none';
+    document.querySelectorAll('.error').forEach(function(el){el.classList.remove('error')});
+    document.getElementById('grupoQualMedicacao').style.display = 'none';
+    document.getElementById('formCard').scrollIntoView({ behavior:'smooth' });
+}
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
